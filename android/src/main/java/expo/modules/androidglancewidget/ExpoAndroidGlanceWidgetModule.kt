@@ -1,50 +1,87 @@
 package expo.modules.androidglancewidget
 
+import android.content.Context
+import android.content.SharedPreferences
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.net.URL
 
 class ExpoAndroidGlanceWidgetModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
-  override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('ExpoAndroidGlanceWidget')` in JavaScript.
-    Name("ExpoAndroidGlanceWidget")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
+    override fun definition() = ModuleDefinition {
 
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
+        Name("ExpoAndroidGlanceWidget")
 
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
+        // set function for String
+        Function("setString") { key: String, value: String ->
+            getPreferences().edit().putString(key, value).commit()
+        }
+
+        // set function for Boolean
+        Function("setBoolean") { key: String, value: Boolean ->
+            getPreferences().edit().putBoolean(key, value).commit()
+        }
+
+        // set function for Int
+        Function("setInt") { key: String, value: Int ->
+            getPreferences().edit().putInt(key, value).commit()
+        }
+
+        // set function for Long
+        Function("setLong") { key: String, value: Long ->
+            getPreferences().edit().putLong(key, value).commit()
+        }
+
+        // set function for Float
+        Function("setFloat") { key: String, value: Float ->
+            getPreferences().edit().putFloat(key, value).commit()
+        }
+
+        // set function for StringSet
+        Function("setStringSet") { key: String, value: Set<String> ->
+            getPreferences().edit().putStringSet(key, value).commit()
+        }
+
+        // get function that returns data of any type
+        Function("get") { key: String ->
+            return@Function getValue(key)
+        }
+
+        // Utility functions
+        Function("hasKey") { key: String ->
+            return@Function getPreferences().contains(key)
+        }
+
+        Function("removeKey") { key: String ->
+            getPreferences().edit().remove(key).commit()
+        }
+
+        Function("clearAll") {
+            getPreferences().edit().clear().commit()
+        }
+
+        Function("getAllKeys") {
+            return@Function getPreferences().all.keys.toList()
+        }
+
     }
 
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
+    private val context
+        get() = requireNotNull(appContext.reactContext)
+
+    private fun getPreferences(): SharedPreferences {
+        return context.getSharedPreferences(context.packageName + ".glance_widget", Context.MODE_PRIVATE)
     }
 
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(ExpoAndroidGlanceWidgetView::class) {
-      // Defines a setter for the `url` prop.
-      Prop("url") { view: ExpoAndroidGlanceWidgetView, url: URL ->
-        view.webView.loadUrl(url.toString())
-      }
-      // Defines an event that the view can send to JavaScript.
-      Events("onLoad")
+    private fun getValue(key: String): Any? {
+        val preferences = getPreferences()
+        if (!preferences.contains(key)) {
+            return null
+        }
+
+        // Get all stored values to determine the type
+        val allValues = preferences.all
+        val value = allValues[key]
+        
+        return value
     }
-  }
 }
