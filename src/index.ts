@@ -1,11 +1,22 @@
 import ExpoAndroidGlanceWidgetModule from "./ExpoAndroidGlanceWidgetModule";
 
 class WidgetStorage {
-  static set(key: string, value: string | boolean | number | string[]): void {
+  static set(
+    key: string,
+    value:
+      | string
+      | boolean
+      | number
+      | string[]
+      | Record<string, string | number>
+      | Array<Record<string, string | number>>
+  ): boolean {
     if (typeof value === "string") {
       ExpoAndroidGlanceWidgetModule.setString(key, value);
+      return true;
     } else if (typeof value === "boolean") {
       ExpoAndroidGlanceWidgetModule.setBoolean(key, value);
+      return true;
     } else if (typeof value === "number") {
       // Check if it's an integer or float
       if (Number.isInteger(value)) {
@@ -21,12 +32,30 @@ class WidgetStorage {
       } else {
         ExpoAndroidGlanceWidgetModule.setFloat(key, value);
       }
+      return true;
     } else if (Array.isArray(value)) {
-      ExpoAndroidGlanceWidgetModule.setStringSet(key, value);
+      // handles both strings and objects
+      return ExpoAndroidGlanceWidgetModule.setArray(key, value);
+    } else if (typeof value === "object" && value !== null) {
+      // Object/Record
+      return ExpoAndroidGlanceWidgetModule.setObject(
+        key,
+        value as Record<string, any>
+      );
     }
+    return false;
   }
 
-  static get(key: string): string | boolean | number | string[] | null {
+  static get(
+    key: string
+  ):
+    | string
+    | boolean
+    | number
+    | string[]
+    | Record<string, string | number>
+    | Array<Record<string, string | number>>
+    | null {
     return ExpoAndroidGlanceWidgetModule.get(key);
   }
 

@@ -36,6 +36,16 @@ public class ExpoAndroidGlanceWidgetModule: Module {
             //
         }
 
+        // set function for Objects
+        Function("setObject") { (key: String, data: [String: Any]) -> Bool in
+            //
+        }
+
+        // set function for Arrays of Objects
+        Function("setArray") { (key: String, data: [Any]) -> Bool in
+            //
+        }
+
         // get function that returns data of any type
         Function("get") { (key: String) -> Any? in
             //

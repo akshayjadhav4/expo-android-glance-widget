@@ -4,8 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 
 class ExpoAndroidGlanceWidgetModule : Module() {
+
+    private val gson = Gson()
 
     override fun definition() = ModuleDefinition {
 
@@ -39,6 +44,28 @@ class ExpoAndroidGlanceWidgetModule : Module() {
         // set function for StringSet
         Function("setStringSet") { key: String, value: Set<String> ->
             getPreferences().edit().putStringSet(key, value).commit()
+        }
+
+        // Set function for Objects
+        Function("setObject") { key: String, data: Map<String, Any> ->
+            return@Function try {
+                val jsonString = gson.toJson(data)
+                getPreferences().edit().putString(key, jsonString).commit()
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        // Set function for Arrays of Objects
+        Function("setArray") { key: String, data: List<Any> ->
+            return@Function try {
+                val jsonString = gson.toJson(data)
+                getPreferences().edit().putString(key, jsonString).commit()
+                true
+            } catch (e: Exception) {
+                false
+            }
         }
 
         // get function that returns data of any type
@@ -78,10 +105,28 @@ class ExpoAndroidGlanceWidgetModule : Module() {
             return null
         }
 
-        // Get all stored values to determine the type
         val allValues = preferences.all
         val value = allValues[key]
-        
+
+        if (value is String && isValidJson(value)) {
+            return try {
+                gson.fromJson(value, Any::class.java)
+            } catch (e: JsonSyntaxException) {
+                e.printStackTrace()
+                value // fallback to raw string
+            }
+        }
+
         return value
+    }
+
+    // Helper function for JSON validation
+    private fun isValidJson(json: String): Boolean {
+        return try {
+            val element = JsonParser.parseString(json)
+            element.isJsonObject || element.isJsonArray
+        } catch (e: Exception) {
+            false
+        }
     }
 }
