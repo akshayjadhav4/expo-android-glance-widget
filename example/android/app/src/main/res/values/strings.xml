@@ -2,4 +2,5 @@
   <string name="app_name">expo-android-glance-widget-example</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="home_widget_description">Home Widget</string>
 </resources>

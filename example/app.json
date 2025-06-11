@@ -26,6 +26,30 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+     [ "../app.plugin.js",
+      {
+        "glanceVersion": "1.1.1",
+        "kotlinVersion": "2.0.0",
+        "widgets": [
+          {
+            "widgetClassName": "Home",
+            "widgetProviderInfo": {
+              "description": "Home Widget",
+              "updatePeriodMillis": 1000,
+              "minWidth": "100dp",
+              "minHeight": "100dp",
+              "targetCellWidth": "100",
+              "targetCellHeight": "100",
+              "maxResizeWidth": "100dp",
+              "maxResizeHeight": "100dp",
+              "resizeMode": "horizontal",
+              "widgetCategory": "home_screen"
+            }
+          }
+        ]
+      }]
+    ]
   }
 }
