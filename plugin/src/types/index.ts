@@ -7,7 +7,6 @@ export interface WidgetProviderInfo {
   targetCellHeight?: string;
   maxResizeWidth?: string;
   maxResizeHeight?: string;
-  previewLayout?: string;
   configure?: string;
   resizeMode?: string;
   widgetCategory?: string;

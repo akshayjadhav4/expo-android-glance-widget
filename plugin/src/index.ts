@@ -5,6 +5,7 @@ import { withWidgetProviderInfo } from "./withWidgetProviderInfo";
 import { withWidgetCodeSync } from "./withWidgetCodeSync";
 import { withWidgetManifest } from "./withWidgetManifest";
 import withWidgetAssets from "./withWidgetAssets";
+import { withWidgetLayouts } from "./withWidgetLayouts";
 
 const withGlance: ConfigPlugin<GlanceConfig> = (
   config,
@@ -13,6 +14,7 @@ const withGlance: ConfigPlugin<GlanceConfig> = (
   const applyWidgetConfigs = (currentConfig: any) => {
     return widgets?.reduce((acc, widgetConfig) => {
       return withPlugins(acc, [
+        [withWidgetLayouts, widgetConfig],
         [withWidgetProviderInfo, widgetConfig],
         [withWidgetCodeSync, { widgetName: widgetConfig.widgetClassName }],
       ]);

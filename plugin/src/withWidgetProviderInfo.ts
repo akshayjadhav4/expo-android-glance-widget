@@ -22,6 +22,7 @@ export const withWidgetProviderInfo: ConfigPlugin<Widget> = (
   // validate widgetClassName
   validateWidgetName(widgetClassName);
   const widgetName = widgetClassName;
+  const widgetNameSnakeCase = toSnakeCase(widgetName);
 
   if (!widgetProviderInfo || typeof widgetProviderInfo !== "object") {
     throw new Error("Widget provider info is required");
@@ -31,7 +32,7 @@ export const withWidgetProviderInfo: ConfigPlugin<Widget> = (
   const generatedKey =
     rawDescription && rawDescription.length > 0
       ? rawDescription.toLowerCase().replace(/\s+/g, "_").replace(/[^\w]/g, "")
-      : toSnakeCase(widgetName);
+      : widgetNameSnakeCase;
 
   withStringsXml(config, (config) => {
     // Create key from description only
@@ -97,15 +98,22 @@ export const withWidgetProviderInfo: ConfigPlugin<Widget> = (
             return `android:${key}="${value}"`;
           });
 
+        // Add initial and preview layouts
+        const initialLayoutName = `${widgetNameSnakeCase}_initial_layout`;
+        const previewLayoutName = `${widgetNameSnakeCase}_preview_layout`;
+        attributes.push(`android:initialLayout="@layout/${initialLayoutName}"`);
+        attributes.push(`android:previewLayout="@layout/${previewLayoutName}"`);
+        // TODO: Add preview image for Android 11 and lower
+        // attributes.push(
+        //   `android:previewImage="@drawable/widget_preview_${widgetNameSnakeCase}"`
+        // );
+
         const xmlContent = `<?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     ${attributes.join("\n    ")} />`;
 
         // write the xml file
-        const xmlPath = path.join(
-          xmlDir,
-          `${toSnakeCase(widgetName)}_info.xml`
-        );
+        const xmlPath = path.join(xmlDir, `${widgetNameSnakeCase}_info.xml`);
         fs.writeFileSync(xmlPath, xmlContent);
         // console.log(`✅ Created widget XML: ${xmlPath}`);
 
