@@ -15,7 +15,12 @@ const withWidgetAssets: ConfigPlugin = (config) => {
     async (config) => {
       const projectRoot = config.modRequest.projectRoot;
 
-      const widgetAssetsPath = path.join(projectRoot, WIDGET_SRC, "assets");
+      const widgetAssetsPath = path.join(
+        projectRoot,
+        WIDGET_SRC,
+        "res",
+        "drawable"
+      );
       const androidDrawablePath = path.join(
         config.modRequest.platformProjectRoot,
         "app",
@@ -25,7 +30,7 @@ const withWidgetAssets: ConfigPlugin = (config) => {
         "drawable"
       );
 
-      // check widgets/assets folder exists
+      // check widgets/res/drawable folder exists
       if (!fs.existsSync(widgetAssetsPath)) {
         try {
           fs.mkdirSync(widgetAssetsPath, { recursive: true });
