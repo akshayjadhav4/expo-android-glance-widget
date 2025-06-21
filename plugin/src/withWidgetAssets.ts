@@ -149,9 +149,9 @@ const withWidgetAssets: ConfigPlugin = (config) => {
       }
 
       if (copiedCount > 0) {
-        console.log(
-          `✅ Successfully copied ${copiedCount} widget asset(s) to Android drawable resources.`
-        );
+        // console.log(
+        //   `✅ Successfully copied ${copiedCount} widget asset(s) to Android drawable resources.`
+        // );
       }
 
       return config;
