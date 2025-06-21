@@ -6,6 +6,7 @@ import { withWidgetStarterTemplate } from "./withWidgetStarterTemplate";
 import { withWidgetManifest } from "./withWidgetManifest";
 import withWidgetAssets from "./withWidgetAssets";
 import { withWidgetLayouts } from "./withWidgetLayouts";
+import { withWidgetCodeSync } from "./withWidgetCodeSync";
 
 const withGlance: ConfigPlugin<GlanceConfig> = (
   config,
@@ -20,6 +21,7 @@ const withGlance: ConfigPlugin<GlanceConfig> = (
           withWidgetStarterTemplate,
           { widgetName: widgetConfig.widgetClassName },
         ],
+        withWidgetCodeSync,
       ]);
     }, currentConfig);
   };
