@@ -2,7 +2,7 @@ import { ConfigPlugin, withPlugins } from "@expo/config-plugins";
 import { withSetupGlance } from "./withSetupGlance";
 import { GlanceConfig } from "./types";
 import { withWidgetProviderInfo } from "./withWidgetProviderInfo";
-import { withWidgetCodeSync } from "./withWidgetCodeSync";
+import { withWidgetStarterTemplate } from "./withWidgetStarterTemplate";
 import { withWidgetManifest } from "./withWidgetManifest";
 import withWidgetAssets from "./withWidgetAssets";
 import { withWidgetLayouts } from "./withWidgetLayouts";
@@ -16,7 +16,10 @@ const withGlance: ConfigPlugin<GlanceConfig> = (
       return withPlugins(acc, [
         [withWidgetLayouts, widgetConfig],
         [withWidgetProviderInfo, widgetConfig],
-        [withWidgetCodeSync, { widgetName: widgetConfig.widgetClassName }],
+        [
+          withWidgetStarterTemplate,
+          { widgetName: widgetConfig.widgetClassName },
+        ],
       ]);
     }, currentConfig);
   };

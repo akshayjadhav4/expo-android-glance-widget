@@ -63,7 +63,7 @@ class ${widgetName}Receiver : GlanceAppWidgetReceiver() {
   },
 ];
 
-export const withWidgetCodeSync: ConfigPlugin<PluginProps> = (
+export const withWidgetStarterTemplate: ConfigPlugin<PluginProps> = (
   config,
   props
 ) => {
@@ -75,31 +75,14 @@ export const withWidgetCodeSync: ConfigPlugin<PluginProps> = (
       // Validate widget name
       validateWidgetName(widgetName);
 
-      // Base Path of android project
-      const platformProjectRoot = config.modRequest.platformProjectRoot;
       // Base Path of the project
       const projectRoot = config.modRequest.projectRoot;
-
-      // Path to the main Directory
-      const mainDir = path.join(platformProjectRoot, "app", "src", "main");
-      // Path to the java Directory
-      const javaDir = path.join(mainDir, "java");
 
       const packageName = config?.android?.package;
       if (!packageName) {
         throw new Error(
           "Could not find package name. Please set the package name in your app.json or app.config.js file."
         );
-      }
-      const widgetPkgPath = path.join(
-        javaDir,
-        ...packageName.split("."),
-        WIDGET_SRC
-      );
-
-      // create the widgets package if it doesn't exist inside android project
-      if (!fs.existsSync(widgetPkgPath)) {
-        fs.mkdirSync(widgetPkgPath, { recursive: true });
       }
 
       // create the widgets/ folder if it doesn't exist at project root
@@ -121,20 +104,6 @@ export const withWidgetCodeSync: ConfigPlugin<PluginProps> = (
               `Failed to create widget file ${file.name}: ${(error as Error).message}`
             );
           }
-        }
-      }
-
-      // copy files from widgets/ into Android package, always overwrite
-      for (const file of FILES) {
-        const srcPath = path.join(widgetSrcPath, file.name);
-        const destPath = path.join(widgetPkgPath, file.name);
-        try {
-          const content = fs.readFileSync(srcPath, "utf-8");
-          fs.writeFileSync(destPath, content);
-        } catch (error) {
-          throw new Error(
-            `Failed to sync widget file ${file.name}: ${(error as Error).message}`
-          );
         }
       }
 
