@@ -22,7 +22,8 @@ const withWidgetAssets: ConfigPlugin = (config) => {
         "src",
         "main",
         "res",
-        "drawable"
+        "drawable",
+        "widget_assets"
       );
 
       // check widgets/assets folder exists
