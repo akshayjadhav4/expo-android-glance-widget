@@ -19,7 +19,7 @@ const withWidgetAssets: ConfigPlugin = (config) => {
         projectRoot,
         WIDGET_SRC,
         "res",
-        "drawable"
+        "drawables" // TODO:: Why using drawable does not load image on android?
       );
       const androidDrawablePath = path.join(
         config.modRequest.platformProjectRoot,
