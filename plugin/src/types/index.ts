@@ -10,6 +10,7 @@ export interface WidgetProviderInfo {
   configure?: string;
   resizeMode?: string;
   widgetCategory?: string;
+  previewImageFileName?: string;
 }
 
 export interface Widget {

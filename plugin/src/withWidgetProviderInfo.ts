@@ -87,8 +87,11 @@ export const withWidgetProviderInfo: ConfigPlugin<Widget> = (
         // Generate attributes
         const attributes = Object.entries(widgetProviderInfo)
           .filter(
-            ([_, value]) =>
-              value !== null && value !== undefined && value !== ""
+            ([key, value]) =>
+              value !== null &&
+              value !== undefined &&
+              value !== "" &&
+              key !== "previewImageFileName"
           )
           .map(([key, value]) => {
             if (key === "description") {
@@ -103,10 +106,12 @@ export const withWidgetProviderInfo: ConfigPlugin<Widget> = (
         const previewLayoutName = `${widgetNameSnakeCase}_preview_layout`;
         attributes.push(`android:initialLayout="@layout/${initialLayoutName}"`);
         attributes.push(`android:previewLayout="@layout/${previewLayoutName}"`);
-        // TODO: Add preview image for Android 11 and lower
-        // attributes.push(
-        //   `android:previewImage="@drawable/widget_preview_${widgetNameSnakeCase}"`
-        // );
+        // Add preview image for Android 11 and lower if previewImageFileName provided
+        if (widgetProviderInfo.previewImageFileName) {
+          attributes.push(
+            `android:previewImage="@drawable/${widgetProviderInfo.previewImageFileName}"`
+          );
+        }
 
         const xmlContent = `<?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
