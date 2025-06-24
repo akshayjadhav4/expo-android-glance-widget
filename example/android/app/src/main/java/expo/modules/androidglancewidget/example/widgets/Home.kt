@@ -5,13 +5,21 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.provideContent
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Column
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
+import androidx.glance.layout.Spacer
+import androidx.glance.layout.height
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import expo.modules.androidglancewidget.example.R
 
 class Home : GlanceAppWidget() {
 
@@ -23,8 +31,26 @@ class Home : GlanceAppWidget() {
 
         provideContent {
             GlanceTheme {
-                Scaffold(backgroundColor = GlanceTheme.colors.widgetBackground, modifier = GlanceModifier.padding(16.dp)){
-                    Text("Hello Widget", style = TextStyle(color = GlanceTheme.colors.onSurface))
+                Scaffold(
+                    backgroundColor = GlanceTheme.colors.widgetBackground, 
+                    modifier = GlanceModifier.fillMaxSize().padding(16.dp)
+                ) {
+                    Column(
+                        modifier = GlanceModifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            "Hello Widget!!👋", 
+                            style = TextStyle(color = GlanceTheme.colors.onSurface)
+                        )
+                        Spacer(modifier = GlanceModifier.height(8.dp))
+                        Image(
+                            provider = ImageProvider(R.drawable.react_logo),
+                            contentDescription = "React Logo",
+                            modifier = GlanceModifier
+                        )
+                    }
                 }
             }
         }
