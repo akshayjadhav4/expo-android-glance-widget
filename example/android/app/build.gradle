@@ -161,10 +161,12 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-// @generated begin Dependencies - expo prebuild (DO NOT MODIFY) sync-ee44a10938c6e89180f95c838c854febd69bfb01
+// @generated begin Dependencies - expo prebuild (DO NOT MODIFY) sync-e2bf4d1e93620690bb50032b6675255830a8ae72
 
     implementation "androidx.glance:glance-appwidget:1.1.1"
     implementation "androidx.glance:glance-material3:1.1.1"
+    implementation "androidx.glance:glance-appwidget-preview:1.1.1"
+    implementation "androidx.glance:glance-preview:1.1.1"
     
 // @generated end Dependencies
 

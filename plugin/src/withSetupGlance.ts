@@ -27,6 +27,8 @@ export const withSetupGlance: ConfigPlugin<{
     const dependencies = `
     implementation "androidx.glance:glance-appwidget:${glanceVersion}"
     implementation "androidx.glance:glance-material3:${glanceVersion}"
+    implementation "androidx.glance:glance-appwidget-preview:${glanceVersion}"
+    implementation "androidx.glance:glance-preview:${glanceVersion}"
     `;
 
     const activateComposeCompilerSetup = `
