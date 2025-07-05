@@ -7,4 +7,5 @@
     android:widgetCategory="home_screen"
     android:minResizeHeight="100dp"
     android:minResizeWidth="200dp"
+    android:widgetFeatures="reconfigurable"
     android:configure="expo.modules.androidglancewidget.example.widgets.HomeWidgetConfigurationActivity" />

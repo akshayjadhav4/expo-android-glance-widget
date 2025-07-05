@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/home_widget_description"
     android:updatePeriodMillis="1000"
     android:minWidth="100dp"
     android:minHeight="100dp"
+    android:targetCellWidth="100"
+    android:targetCellHeight="100"
+    android:maxResizeWidth="200dp"
+    android:maxResizeHeight="100dp"
     android:resizeMode="horizontal"
     android:widgetCategory="home_screen"
     android:minResizeHeight="100dp"
     android:minResizeWidth="200dp"
+    android:widgetFeatures="reconfigurable"
     android:configure="expo.modules.androidglancewidget.example.widgets.HomeWidgetConfigurationActivity" />

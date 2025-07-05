@@ -41,10 +41,13 @@
               "minHeight": "100dp",
               "targetCellWidth": "100",
               "targetCellHeight": "100",
-              "maxResizeWidth": "100dp",
+              "maxResizeWidth": "200dp",
               "maxResizeHeight": "100dp",
               "resizeMode": "horizontal",
-              "widgetCategory": "home_screen"
+              "widgetCategory": "home_screen",
+              "minResizeHeight": "100dp",
+              "minResizeWidth": "200dp",
+              "widgetFeatures": "reconfigurable"
             }
           }
         ]
