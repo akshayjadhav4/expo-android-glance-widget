@@ -1,5 +1,5 @@
 import { View, Text, Button, ScrollView, StyleSheet } from "react-native";
-import { WidgetStorage } from "@aj/expo-android-glance-widget";
+import { WidgetStorage } from "android-glance-widget-expo";
 import { useState } from "react";
 
 export default function App() {

@@ -20,7 +20,7 @@ An experimental Expo Config Plugin that enables developers to create and manage 
 ## Installation
 
 ```bash
-npm install @aj/expo-android-glance-widget
+npm install android-glance-widget-expo
 ```
 
 ## Configuration
@@ -32,7 +32,7 @@ npm install @aj/expo-android-glance-widget
   "expo": {
     "plugins": [
       [
-        "@aj/expo-android-glance-widget",
+        "android-glance-widget-expo",
         {
           "glanceVersion": "1.1.1", // Optional, defaults to "1.1.1"
           "kotlinVersion": "2.0.0", // Optional, defaults to "2.0.0"
@@ -127,7 +127,7 @@ Use the `WidgetStorage` API to communicate with your widgets:
 ### App
 
 ```typescript
-import { WidgetStorage } from '@aj/expo-android-glance-widget';
+import { WidgetStorage } from 'android-glance-widget-expo';
 
 // Set data for widgets
 WidgetStorage.set('message', 'Hello World!');

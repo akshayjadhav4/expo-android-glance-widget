@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@aj/expo-android-glance-widget": "file:..",
+    "android-glance-widget-expo": "file:..",
     "expo": "~53.0.10",
     "react": "19.0.0",
     "react-native": "0.79.3"
