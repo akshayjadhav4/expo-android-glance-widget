@@ -1,6 +1,6 @@
 {
   "name": "android-glance-widget-expo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Module to control android glance widget",
   "main": "build/index.js",
   "types": "build/index.d.ts",
