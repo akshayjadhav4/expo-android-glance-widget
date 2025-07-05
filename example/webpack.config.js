@@ -6,7 +6,7 @@ module.exports = async (env, argv) => {
     {
       ...env,
       babel: {
-        dangerouslyAddModulePathsToTranspile: ['expo-android-glance-widget'],
+        dangerouslyAddModulePathsToTranspile: ['@aj/expo-android-glance-widget'],
       },
     },
     argv

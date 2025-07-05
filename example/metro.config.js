@@ -19,7 +19,7 @@ config.resolver.nodeModulesPaths = [
 ];
 
 config.resolver.extraNodeModules = {
-  'expo-android-glance-widget': '..',
+  '@aj/expo-android-glance-widget': '..',
 };
 
 config.watchFolders = [path.resolve(__dirname, '..')];

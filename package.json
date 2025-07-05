@@ -1,5 +1,5 @@
 {
-  "name": "expo-android-glance-widget",
+  "name": "@aj/expo-android-glance-widget",
   "version": "0.1.0",
   "description": "Module to control android glance widget",
   "main": "build/index.js",
