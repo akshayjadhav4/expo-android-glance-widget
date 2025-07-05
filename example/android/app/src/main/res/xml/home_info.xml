@@ -10,5 +10,6 @@
     android:maxResizeHeight="100dp"
     android:resizeMode="horizontal"
     android:widgetCategory="home_screen"
+    android:configure="expo.modules.androidglancewidget.example.widgets.HomeWidgetConfigurationActivity"
     android:initialLayout="@layout/home_initial_layout"
     android:previewLayout="@layout/home_preview_layout" />
