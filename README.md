@@ -20,7 +20,7 @@ An experimental Expo Config Plugin that enables developers to create and manage 
 ## Installation
 
 ```bash
-npm install expo-android-glance-widget
+npm install @aj/expo-android-glance-widget
 ```
 
 ## Configuration
