@@ -32,7 +32,7 @@ npm install @aj/expo-android-glance-widget
   "expo": {
     "plugins": [
       [
-        "expo-android-glance-widget",
+        "@aj/expo-android-glance-widget",
         {
           "glanceVersion": "1.1.1", // Optional, defaults to "1.1.1"
           "kotlinVersion": "2.0.0", // Optional, defaults to "2.0.0"
@@ -127,7 +127,7 @@ Use the `WidgetStorage` API to communicate with your widgets:
 ### App
 
 ```typescript
-import { WidgetStorage } from 'expo-android-glance-widget';
+import { WidgetStorage } from '@aj/expo-android-glance-widget';
 
 // Set data for widgets
 WidgetStorage.set('message', 'Hello World!');
