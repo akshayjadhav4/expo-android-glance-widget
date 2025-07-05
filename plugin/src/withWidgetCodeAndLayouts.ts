@@ -7,11 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { toSnakeCase, validateWidgetName, WIDGET_SRC } from "./utils";
-import { Widget } from "./types";
-
-interface GlanceConfig {
-  widgets: Widget[];
-}
+import { GlanceConfig } from "./types";
 
 interface WidgetFile {
   name: string;
@@ -175,6 +171,46 @@ const getLayoutFiles = (widgetName: string): WidgetFile[] => {
   ];
 };
 
+const getConfigurationActivityFile = (
+  configurationActivityName: string,
+  packageName: string
+): WidgetFile => {
+  return {
+    name: `${configurationActivityName}.kt`,
+    type: "kotlin",
+    content: `package ${packageName}.${WIDGET_SRC}
+
+import android.appwidget.AppWidgetManager
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+
+class ${configurationActivityName}: AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Get the App Widget ID from the intent that launched the activity
+        val appWidgetId = intent?.extras?.getInt(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
+        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
+        // TODO: Add UI and logic
+
+        // immediately return success to let widget be placed
+        val resultValue = Intent().putExtra(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            appWidgetId,
+        )
+        setResult(RESULT_OK, resultValue)
+        finish()
+    }
+}
+`,
+  };
+};
+
 /**
  * Helper function to get Android project paths
  */
@@ -300,6 +336,15 @@ export const withWidgetCodeAndLayouts: ConfigPlugin<GlanceConfig> = (
             const kotlinFiles = getKotlinFiles(widgetName, packageName);
             const layoutFiles = getLayoutFiles(widgetName);
             const allFiles = [...kotlinFiles, ...layoutFiles];
+
+            // Add configuration activity if specified
+            if (widget.configurationActivity) {
+              const configurationActivityFile = getConfigurationActivityFile(
+                widget.configurationActivity,
+                packageName
+              );
+              allFiles.push(configurationActivityFile);
+            }
 
             // Create files for this widget in widgets/ directory
             for (const file of allFiles) {

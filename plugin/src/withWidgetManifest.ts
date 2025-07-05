@@ -6,6 +6,7 @@ import {
 import fs from "fs";
 import path from "path";
 import { toSnakeCase, WIDGET_SRC } from "./utils";
+import { GlanceConfig } from "./types";
 
 function getReceiverClassNames(widgetDir: string): string[] {
   // Check if widgets directory exists
@@ -49,7 +50,10 @@ function getReceiverClassNames(widgetDir: string): string[] {
   });
 }
 
-export const withWidgetManifest: ConfigPlugin = (config) => {
+export const withWidgetManifest: ConfigPlugin<GlanceConfig> = (
+  config,
+  glanceConfig
+) => {
   return withAndroidManifest(config, (config) => {
     const manifest = config.modResults;
     const app = AndroidConfig.Manifest.getMainApplication(manifest);
@@ -61,8 +65,9 @@ export const withWidgetManifest: ConfigPlugin = (config) => {
     const widgetDir = path.join(config.modRequest.projectRoot, WIDGET_SRC);
     const receiverClasses = getReceiverClassNames(widgetDir);
 
-    // Ensure receiver array exists
+    // Ensure receiver and activity arrays exist
     app.receiver = app.receiver || [];
+    app.activity = app.activity || [];
 
     receiverClasses.forEach((receiverClass) => {
       // Validate that class name ends with 'Receiver'
@@ -109,6 +114,41 @@ export const withWidgetManifest: ConfigPlugin = (config) => {
         } as any);
       }
     });
+
+    // Handle configuration activities
+    if (glanceConfig?.widgets) {
+      glanceConfig.widgets.forEach((widget) => {
+        if (widget.configurationActivity) {
+          const activityName = `.widgets.${widget.configurationActivity}`;
+
+          // Check if the activity already exists
+          const activityExists = app.activity!.some(
+            (a) => a.$["android:name"] === activityName
+          );
+
+          if (!activityExists) {
+            app.activity!.push({
+              $: {
+                "android:name": activityName,
+                "android:exported": "true",
+              },
+              "intent-filter": [
+                {
+                  action: [
+                    {
+                      $: {
+                        "android:name":
+                          "android.appwidget.action.APPWIDGET_CONFIGURE",
+                      },
+                    },
+                  ],
+                },
+              ],
+            } as any);
+          }
+        }
+      });
+    }
 
     return config;
   });

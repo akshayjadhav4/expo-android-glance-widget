@@ -14,7 +14,7 @@ const withGlance: ConfigPlugin<GlanceConfig> = (
     [withSetupGlance, { glanceVersion, kotlinVersion }],
     [withWidgetCodeAndLayouts, { widgets }],
     [withWidgetProviderInfo, { widgets }],
-    withWidgetManifest,
+    [withWidgetManifest, { widgets }],
     withWidgetAssets,
   ]);
 };

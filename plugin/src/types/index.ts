@@ -16,6 +16,7 @@ export interface WidgetProviderInfo {
 export interface Widget {
   widgetClassName: string;
   widgetProviderInfo: WidgetProviderInfo;
+  configurationActivity?: string;
 }
 
 export interface GlanceConfig {

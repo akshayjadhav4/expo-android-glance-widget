@@ -38,7 +38,8 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
 
     // Process each widget
     for (const widget of widgets) {
-      const { widgetClassName, widgetProviderInfo } = widget;
+      const { widgetClassName, widgetProviderInfo, configurationActivity } =
+        widget;
 
       // Validate widget name
       validateWidgetName(widgetClassName);
@@ -87,6 +88,14 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
     "android",
     async (config) => {
       try {
+        // Get package name
+        const packageName = config?.android?.package;
+        if (!packageName) {
+          throw new Error(
+            "Could not find package name. Please set the package name in your app.json or app.config.js file."
+          );
+        }
+
         // Base Path
         const platformProjectRoot = config.modRequest.platformProjectRoot;
 
@@ -112,7 +121,11 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
 
         for (const widget of widgets) {
           try {
-            const { widgetClassName, widgetProviderInfo } = widget;
+            const {
+              widgetClassName,
+              widgetProviderInfo,
+              configurationActivity,
+            } = widget;
 
             // Validate widget name
             validateWidgetName(widgetClassName);
@@ -150,6 +163,14 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
                 }
                 return `android:${key}="${value}"`;
               });
+
+            // Add configuration activity if provided
+            if (configurationActivity && configurationActivity.trim() !== "") {
+              const fullConfigurationActivity = `${packageName}.widgets.${configurationActivity}`;
+              attributes.push(
+                `android:configure="${fullConfigurationActivity}"`
+              );
+            }
 
             // Add initial and preview layouts
             const initialLayoutName = `${widgetNameSnakeCase}_initial_layout`;
