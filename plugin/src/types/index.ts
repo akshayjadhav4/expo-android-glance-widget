@@ -7,10 +7,15 @@ export interface WidgetProviderInfo {
   targetCellHeight?: string;
   maxResizeWidth?: string;
   maxResizeHeight?: string;
-  configure?: string;
-  resizeMode?: string;
-  widgetCategory?: string;
+  minResizeWidth?: string;
+  minResizeHeight?: string;
+  resizeMode?: "horizontal" | "vertical" | "none" | "horizontal|vertical";
+  widgetCategory?: "home_screen" | "keyguard";
   previewImageFileName?: string;
+  widgetFeatures?:
+    | "configuration_optional"
+    | "reconfigurable"
+    | "hide_from_picker";
 }
 
 export interface Widget {
