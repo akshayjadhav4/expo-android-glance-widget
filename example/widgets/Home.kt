@@ -1,6 +1,7 @@
 package expo.modules.androidglancewidget.example.widgets
 
 import android.content.Context
+//import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
@@ -23,25 +24,34 @@ import androidx.glance.preview.Preview
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import expo.modules.androidglancewidget.example.R
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.glance.currentState
+import androidx.glance.state.GlanceStateDefinition
+import androidx.glance.state.PreferencesGlanceStateDefinition
 
 class Home : GlanceAppWidget() {
 
+    override val stateDefinition: GlanceStateDefinition<*> = PreferencesGlanceStateDefinition
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
-        // In this method, load data needed to render the AppWidget.
-        // Use withContext to switch to another thread for long running
-        // operations.
-
         provideContent {
+
+            val preferences = currentState<Preferences>()
+            val message = preferences[stringPreferencesKey("widgetMessage")] ?: "Default No Message"
+//            Log.d("Home","message $message, GlanceId: $id")
             GlanceTheme {
-                HomeContent()
+                HomeContent(message)
             }
         }
     }
 }
 
 @Composable
-private fun HomeContent() {
+private fun HomeContent(
+    message: String
+) {
     Scaffold(
         backgroundColor = GlanceTheme.colors.widgetBackground, 
         modifier = GlanceModifier.fillMaxSize().padding(16.dp)
@@ -52,7 +62,7 @@ private fun HomeContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "Hello Widget!!👋", 
+                message,
                 style = TextStyle(color = GlanceTheme.colors.onSurface)
             )
             Spacer(modifier = GlanceModifier.height(8.dp))
@@ -69,5 +79,5 @@ private fun HomeContent() {
 @Preview(widthDp = 180, heightDp = 304)
 @Composable
 fun HomeWidgetContentPreview() {
-    HomeContent()
+    HomeContent("Preview Message")
 }

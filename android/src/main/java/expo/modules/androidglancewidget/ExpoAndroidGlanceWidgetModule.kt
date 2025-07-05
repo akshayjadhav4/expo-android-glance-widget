@@ -98,7 +98,6 @@ class ExpoAndroidGlanceWidgetModule : Module() {
 
             // Dynamically construct the full widget class name
             val widgetClassName = "${context.packageName}.widgets.$receiverClassName"
-            Log.d("ExpoAndroidGlanceWidget", "Updating widget: $widgetClassName")
 
             // Create the ComponentName with context package and widget class
             val component = ComponentName(context.packageName, widgetClassName)
@@ -107,7 +106,6 @@ class ExpoAndroidGlanceWidgetModule : Module() {
                 setComponent(component)
             }
 
-            Log.d("ExpoAndroidGlanceWidget", "Sending broadcast to update widget")
             context.sendBroadcast(intent)
         }
 
