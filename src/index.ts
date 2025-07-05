@@ -74,6 +74,10 @@ class WidgetStorage {
   static getAllKeys(): string[] {
     return ExpoAndroidGlanceWidgetModule.getAllKeys();
   }
+
+  static updateWidget(receiverClassName: string): void {
+    ExpoAndroidGlanceWidgetModule.updateWidget(receiverClassName);
+  }
 }
 
 export { WidgetStorage };

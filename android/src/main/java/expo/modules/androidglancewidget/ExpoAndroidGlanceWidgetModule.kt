@@ -1,7 +1,11 @@
 package expo.modules.androidglancewidget
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import com.google.gson.Gson
@@ -88,6 +92,23 @@ class ExpoAndroidGlanceWidgetModule : Module() {
 
         Function("getAllKeys") {
             return@Function getPreferences().all.keys.toList()
+        }
+
+        Function("updateWidget") { receiverClassName: String ->
+
+            // Dynamically construct the full widget class name
+            val widgetClassName = "${context.packageName}.widgets.$receiverClassName"
+            Log.d("ExpoAndroidGlanceWidget", "Updating widget: $widgetClassName")
+
+            // Create the ComponentName with context package and widget class
+            val component = ComponentName(context.packageName, widgetClassName)
+
+            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
+                setComponent(component)
+            }
+
+            Log.d("ExpoAndroidGlanceWidget", "Sending broadcast to update widget")
+            context.sendBroadcast(intent)
         }
 
     }

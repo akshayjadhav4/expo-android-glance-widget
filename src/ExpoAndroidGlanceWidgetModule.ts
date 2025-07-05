@@ -16,6 +16,7 @@ declare class ExpoAndroidGlanceWidgetModule extends NativeModule<ExpoAndroidGlan
   removeKey(key: string): void;
   clearAll(): void;
   getAllKeys(): string[];
+  updateWidget(receiverClassName: string): void;
 }
 
 // This call loads the native module object from the JSI.
