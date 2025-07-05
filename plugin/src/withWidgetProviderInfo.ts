@@ -6,7 +6,12 @@ import {
 import fs from "fs";
 import path from "path";
 
-import { toSnakeCase, validateWidgetName } from "./utils";
+import {
+  toSnakeCase,
+  validateWidgetName,
+  getApiLevelDirectories,
+  getAttributesForApiLevel,
+} from "./utils";
 import { Widget } from "./types";
 
 const DESCRIPTION_SUFFIX = "_description";
@@ -98,22 +103,13 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
 
         // Base Path
         const platformProjectRoot = config.modRequest.platformProjectRoot;
-
-        // Path to the xml Directory
-        const xmlDir = path.join(
+        const resDir = path.join(
           platformProjectRoot,
           "app",
           "src",
           "main",
-          "res",
-          "xml"
+          "res"
         );
-
-        // create the xml directory if it doesn't exist
-        if (!fs.existsSync(xmlDir)) {
-          fs.mkdirSync(xmlDir, { recursive: true });
-          // console.log(`📁 Created XML directory: ${xmlDir}`);
-        }
 
         // Process each widget
         const errors: string[] = [];
@@ -147,60 +143,87 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
                     .replace(/[^\w]/g, "")
                 : widgetNameSnakeCase;
 
-            // Generate attributes
-            const attributes = Object.entries(widgetProviderInfo)
-              .filter(
-                ([key, value]) =>
-                  value !== null &&
-                  value !== undefined &&
-                  value !== "" &&
-                  key !== "previewImageFileName"
-              )
-              .map(([key, value]) => {
-                if (key === "description") {
-                  const descriptionKey = `${generatedKey}${DESCRIPTION_SUFFIX}`;
-                  return `android:${key}="@string/${descriptionKey}"`;
+            // Get API level directories needed for this widget
+            const apiLevelDirectories =
+              getApiLevelDirectories(widgetProviderInfo);
+
+            // Create XML files for each required API level
+            for (const { directory, apiLevel } of apiLevelDirectories) {
+              const xmlDirPath = path.join(resDir, directory);
+
+              // Create the xml directory if it doesn't exist
+              if (!fs.existsSync(xmlDirPath)) {
+                fs.mkdirSync(xmlDirPath, { recursive: true });
+                // console.log(`📁 Created XML directory: ${xmlDirPath}`);
+              }
+
+              // Get attributes for this API level
+              const apiLevelAttributes = getAttributesForApiLevel(
+                widgetProviderInfo,
+                apiLevel
+              );
+
+              // Generate XML attributes
+              const attributes = Object.entries(apiLevelAttributes).map(
+                ([key, value]) => {
+                  if (key === "description") {
+                    const descriptionKey = `${generatedKey}${DESCRIPTION_SUFFIX}`;
+                    return `android:${key}="@string/${descriptionKey}"`;
+                  }
+                  return `android:${key}="${value}"`;
                 }
-                return `android:${key}="${value}"`;
-              });
-
-            // Add configuration activity if provided
-            if (configurationActivity && configurationActivity.trim() !== "") {
-              const fullConfigurationActivity = `${packageName}.widgets.${configurationActivity}`;
-              attributes.push(
-                `android:configure="${fullConfigurationActivity}"`
               );
-            }
 
-            // Add initial and preview layouts
-            const initialLayoutName = `${widgetNameSnakeCase}_initial_layout`;
-            const previewLayoutName = `${widgetNameSnakeCase}_preview_layout`;
-            attributes.push(
-              `android:initialLayout="@layout/${initialLayoutName}"`
-            );
-            attributes.push(
-              `android:previewLayout="@layout/${previewLayoutName}"`
-            );
+              // Add configuration activity if provided
+              if (
+                configurationActivity &&
+                configurationActivity.trim() !== ""
+              ) {
+                const fullConfigurationActivity = `${packageName}.widgets.${configurationActivity}`;
+                attributes.push(
+                  `android:configure="${fullConfigurationActivity}"`
+                );
+              }
 
-            // Add preview image for Android 11 and lower if previewImageFileName provided
-            if (widgetProviderInfo.previewImageFileName) {
-              attributes.push(
-                `android:previewImage="@drawable/${widgetProviderInfo.previewImageFileName}"`
-              );
-            }
+              // Only add initialLayout if the attribute is present for this API level
+              if (apiLevelAttributes.initialLayout !== undefined) {
+                const initialLayoutName = `${widgetNameSnakeCase}_initial_layout`;
+                attributes.push(
+                  `android:initialLayout="@layout/${initialLayoutName}"`
+                );
+              }
 
-            const xmlContent = `<?xml version="1.0" encoding="utf-8"?>
+              // Only add previewLayout if the attribute is present for this API level
+              if (apiLevelAttributes.previewLayout !== undefined) {
+                const previewLayoutName = `${widgetNameSnakeCase}_preview_layout`;
+                attributes.push(
+                  `android:previewLayout="@layout/${previewLayoutName}"`
+                );
+              }
+
+              // Only add previewImage if the attribute is present for this API level
+              if (
+                apiLevelAttributes.previewImage !== undefined &&
+                widgetProviderInfo.previewImageFileName
+              ) {
+                attributes.push(
+                  `android:previewImage="@drawable/${widgetProviderInfo.previewImageFileName}"`
+                );
+              }
+
+              const xmlContent = `<?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     ${attributes.join("\n    ")} />`;
 
-            // write the xml file
-            const xmlPath = path.join(
-              xmlDir,
-              `${widgetNameSnakeCase}_info.xml`
-            );
-            fs.writeFileSync(xmlPath, xmlContent);
-            xmlFilesCreated++;
-            // console.log(`✅ Created widget XML: ${xmlPath}`);
+              // Write the XML file
+              const xmlPath = path.join(
+                xmlDirPath,
+                `${widgetNameSnakeCase}_info.xml`
+              );
+              fs.writeFileSync(xmlPath, xmlContent);
+              xmlFilesCreated++;
+              // console.log(`✅ Created widget XML (${directory}): ${xmlPath}`);
+            }
           } catch (error) {
             errors.push(
               `Failed to process widget ${widget.widgetClassName}: ${error instanceof Error ? error.message : String(error)}`
@@ -214,6 +237,8 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
             console.error(error);
           }
         }
+
+        // console.log(`📊 Created ${xmlFilesCreated} XML files across API levels`);
 
         return config;
       } catch (error) {
