@@ -33,6 +33,12 @@ export default function App() {
             refresh();
           }}
         />
+        <Button
+          title="Refresh"
+          onPress={() => {
+            refresh();
+          }}
+        />
       </View>
     </ScrollView>
   );
