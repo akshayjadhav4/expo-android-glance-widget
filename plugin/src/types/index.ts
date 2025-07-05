@@ -20,7 +20,7 @@ export interface Widget {
 }
 
 export interface GlanceConfig {
-  glanceVersion: string;
-  kotlinVersion: string;
   widgets: Widget[];
+  glanceVersion?: string;
+  kotlinVersion?: string;
 }

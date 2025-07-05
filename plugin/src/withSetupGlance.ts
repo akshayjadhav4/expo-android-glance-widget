@@ -6,9 +6,9 @@ import {
 import { mergeContents } from "@expo/config-plugins/build/utils/generateCode";
 
 export const withSetupGlance: ConfigPlugin<{
-  glanceVersion: string;
-  kotlinVersion: string;
-}> = (config, { glanceVersion, kotlinVersion }) => {
+  glanceVersion?: string;
+  kotlinVersion?: string;
+}> = (config, props) => {
   return withAppBuildGradle(config, (config) => {
     if (config.modResults.language !== "groovy") {
       WarningAggregator.addWarningAndroid(
@@ -17,6 +17,8 @@ export const withSetupGlance: ConfigPlugin<{
       );
       return config;
     }
+    const kotlinVersion = props.kotlinVersion ?? "2.0.0";
+    const glanceVersion = props.glanceVersion ?? "1.1.1";
 
     const composeCompilerPlugin = `plugins {
         id("org.jetbrains.kotlin.plugin.compose") version "${kotlinVersion}"
