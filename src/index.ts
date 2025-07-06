@@ -1,5 +1,3 @@
-import ExpoAndroidGlanceWidgetModule from "./ExpoAndroidGlanceWidgetModule";
-
 class WidgetStorage {
   static set(
     key: string,
@@ -11,38 +9,7 @@ class WidgetStorage {
       | Record<string, string | number>
       | Array<Record<string, string | number>>
   ): boolean {
-    if (typeof value === "string") {
-      ExpoAndroidGlanceWidgetModule.setString(key, value);
-      return true;
-    } else if (typeof value === "boolean") {
-      ExpoAndroidGlanceWidgetModule.setBoolean(key, value);
-      return true;
-    } else if (typeof value === "number") {
-      // Check if it's an integer or float
-      if (Number.isInteger(value)) {
-        // Use setLong for large integers, setInt for smaller ones
-        if (
-          value > Number.MAX_SAFE_INTEGER ||
-          value < Number.MIN_SAFE_INTEGER
-        ) {
-          ExpoAndroidGlanceWidgetModule.setLong(key, value);
-        } else {
-          ExpoAndroidGlanceWidgetModule.setInt(key, value);
-        }
-      } else {
-        ExpoAndroidGlanceWidgetModule.setFloat(key, value);
-      }
-      return true;
-    } else if (Array.isArray(value)) {
-      // handles both strings and objects
-      return ExpoAndroidGlanceWidgetModule.setArray(key, value);
-    } else if (typeof value === "object" && value !== null) {
-      // Object/Record
-      return ExpoAndroidGlanceWidgetModule.setObject(
-        key,
-        value as Record<string, any>
-      );
-    }
+    // Dummy implementation for iOS/Web
     return false;
   }
 
@@ -56,27 +23,30 @@ class WidgetStorage {
     | Record<string, string | number>
     | Array<Record<string, string | number>>
     | null {
-    return ExpoAndroidGlanceWidgetModule.get(key);
+    // Dummy implementation for iOS/Web
+    return null;
   }
 
   static remove(key: string): void {
-    ExpoAndroidGlanceWidgetModule.removeKey(key);
+    // Dummy implementation for iOS/Web
   }
 
   static has(key: string): boolean {
-    return ExpoAndroidGlanceWidgetModule.hasKey(key);
+    // Dummy implementation for iOS/Web
+    return false;
   }
 
   static clear(): void {
-    ExpoAndroidGlanceWidgetModule.clearAll();
+    // Dummy implementation for iOS/Web
   }
 
   static getAllKeys(): string[] {
-    return ExpoAndroidGlanceWidgetModule.getAllKeys();
+    // Dummy implementation for iOS/Web
+    return [];
   }
 
   static updateWidget(receiverClassName: string): void {
-    ExpoAndroidGlanceWidgetModule.updateWidget(receiverClassName);
+    // Dummy implementation for iOS/Web
   }
 }
 

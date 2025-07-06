@@ -38,22 +38,22 @@ public class ExpoAndroidGlanceWidgetModule: Module {
 
         // set function for Objects
         Function("setObject") { (key: String, data: [String: Any]) -> Bool in
-            //
+            return false
         }
 
         // set function for Arrays of Objects
         Function("setArray") { (key: String, data: [Any]) -> Bool in
-            //
+            return false
         }
 
         // get function that returns data of any type
         Function("get") { (key: String) -> Any? in
-            //
+            return nil
         }
 
         // Utility functions
         Function("hasKey") { (key: String) -> Bool in
-            //
+            return false
         }
 
         Function("removeKey") { (key: String) -> Void in
@@ -65,6 +65,10 @@ public class ExpoAndroidGlanceWidgetModule: Module {
         }
 
         Function("getAllKeys") { () -> [String] in
+            return []
+        }
+
+        Function("updateWidget") { (receiverClassName: String) -> Void in
             //
         }
     }
