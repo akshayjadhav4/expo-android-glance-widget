@@ -13,4 +13,6 @@
     android:minResizeHeight="100dp"
     android:minResizeWidth="200dp"
     android:widgetFeatures="reconfigurable"
-    android:configure="expo.modules.androidglancewidget.example.widgets.HomeWidgetConfigurationActivity" />
+    android:configure="expo.modules.androidglancewidget.example.widgets.HomeWidgetConfigurationActivity"
+    android:initialLayout="@layout/home_initial_layout"
+    android:previewLayout="@layout/home_preview_layout" />
