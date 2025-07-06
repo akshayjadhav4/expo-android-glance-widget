@@ -185,27 +185,24 @@ export const withWidgetProviderInfo: ConfigPlugin<GlanceConfig> = (
                 );
               }
 
-              // Only add initialLayout if the attribute is present for this API level
-              if (apiLevelAttributes.initialLayout !== undefined) {
+              // Always add initialLayout for API 3+ (all directories)
+              if (apiLevel >= 3) {
                 const initialLayoutName = `${widgetNameSnakeCase}_initial_layout`;
                 attributes.push(
                   `android:initialLayout="@layout/${initialLayoutName}"`
                 );
               }
 
-              // Only add previewLayout if the attribute is present for this API level
-              if (apiLevelAttributes.previewLayout !== undefined) {
+              // Always add previewLayout for API 31+ (xml-v31 directories)
+              if (apiLevel >= 31) {
                 const previewLayoutName = `${widgetNameSnakeCase}_preview_layout`;
                 attributes.push(
                   `android:previewLayout="@layout/${previewLayoutName}"`
                 );
               }
 
-              // Only add previewImage if the attribute is present for this API level
-              if (
-                apiLevelAttributes.previewImage !== undefined &&
-                widgetProviderInfo.previewImageFileName
-              ) {
+              // Add previewImage only if previewImageFileName is provided and API 11+
+              if (widgetProviderInfo.previewImageFileName && apiLevel >= 11) {
                 attributes.push(
                   `android:previewImage="@drawable/${widgetProviderInfo.previewImageFileName}"`
                 );
