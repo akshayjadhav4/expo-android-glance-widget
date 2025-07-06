@@ -30,7 +30,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoAndroidGlanceWidget (0.1.0):
+  - ExpoAndroidGlanceWidget (0.1.2):
     - ExpoModulesCore
   - ExpoAsset (11.1.5):
     - ExpoModulesCore
@@ -1971,7 +1971,7 @@ SPEC CHECKSUMS:
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXConstants: be238322d57d084dc055dbd5d6fe6479510504ce
   Expo: 77b39f42396989cbe6fbef9f6fafc9b35186a95b
-  ExpoAndroidGlanceWidget: d3bf347f49989ff4b1832854caca72eeeb6acef2
+  ExpoAndroidGlanceWidget: 74dee4a673788c61c4a12c0dd81d09d53cfa81da
   ExpoAsset: 3ea3275cca6a7793b3d36fbf1075c590f803fbcb
   ExpoFileSystem: 3a98ca2a6f13674ecfd97327d1b44a8ace444cbd
   ExpoFont: 312c73403bbd4f98e1d6a5330641a56292583cd2
