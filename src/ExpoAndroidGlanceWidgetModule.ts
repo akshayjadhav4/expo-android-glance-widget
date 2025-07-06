@@ -1,25 +1,52 @@
-import { NativeModule, requireNativeModule } from "expo";
+// Dummy implementation for iOS/Web platforms
+const ExpoAndroidGlanceWidgetModule = {
+  setString(key: string, value: string): void {
+    // No-op for iOS/Web
+  },
+  setBoolean(key: string, value: boolean): void {
+    // No-op for iOS/Web
+  },
+  setInt(key: string, value: number): void {
+    // No-op for iOS/Web
+  },
+  setLong(key: string, value: number): void {
+    // No-op for iOS/Web
+  },
+  setFloat(key: string, value: number): void {
+    // No-op for iOS/Web
+  },
+  setStringSet(key: string, value: string[]): void {
+    // No-op for iOS/Web
+  },
+  setObject(key: string, data: Record<string, any>): boolean {
+    // No-op for iOS/Web
+    return false;
+  },
+  setArray(key: string, data: Array<any>): boolean {
+    // No-op for iOS/Web
+    return false;
+  },
+  get(key: string): any {
+    // No-op for iOS/Web
+    return null;
+  },
+  hasKey(key: string): boolean {
+    // No-op for iOS/Web
+    return false;
+  },
+  removeKey(key: string): void {
+    // No-op for iOS/Web
+  },
+  clearAll(): void {
+    // No-op for iOS/Web
+  },
+  getAllKeys(): string[] {
+    // No-op for iOS/Web
+    return [];
+  },
+  updateWidget(receiverClassName: string): void {
+    // No-op for iOS/Web
+  },
+};
 
-import { ExpoAndroidGlanceWidgetModuleEvents } from "./ExpoAndroidGlanceWidget.types";
-
-declare class ExpoAndroidGlanceWidgetModule extends NativeModule<ExpoAndroidGlanceWidgetModuleEvents> {
-  setString(key: string, value: string): void;
-  setBoolean(key: string, value: boolean): void;
-  setInt(key: string, value: number): void;
-  setLong(key: string, value: number): void;
-  setFloat(key: string, value: number): void;
-  setStringSet(key: string, value: string[]): void;
-  setObject(key: string, data: Record<string, any>): boolean;
-  setArray(key: string, data: Array<any>): boolean;
-  get(key: string): any;
-  hasKey(key: string): boolean;
-  removeKey(key: string): void;
-  clearAll(): void;
-  getAllKeys(): string[];
-  updateWidget(receiverClassName: string): void;
-}
-
-// This call loads the native module object from the JSI.
-export default requireNativeModule<ExpoAndroidGlanceWidgetModule>(
-  "ExpoAndroidGlanceWidget"
-);
+export default ExpoAndroidGlanceWidgetModule;
