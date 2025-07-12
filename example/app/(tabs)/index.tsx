@@ -2,7 +2,7 @@ import { View, Text, Button, ScrollView, StyleSheet } from "react-native";
 import { WidgetStorage } from "android-glance-widget-expo";
 import { useState } from "react";
 
-export default function App() {
+export default function Page() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   // Force re-render to show updated data
@@ -15,7 +15,7 @@ export default function App() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Widget Testing</Text>
+      <Text style={styles.title}>Shared Preferences</Text>
 
       <Text style={styles.text}>{widgetMessage}</Text>
       <View style={styles.buttonContainer}>
