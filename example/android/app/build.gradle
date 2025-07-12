@@ -1,7 +1,10 @@
+// @generated begin ComposeCompilerPlugin - expo prebuild (DO NOT MODIFY) sync-9342967b82cc968ec65728e98b16fcce55d00f3d
 plugins {
-        id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
+
+// @generated end ComposeCompilerPlugin
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
