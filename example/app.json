@@ -51,6 +51,25 @@
                 "minResizeWidth": "200dp",
                 "widgetFeatures": "reconfigurable"
               }
+            },
+            {
+              "widgetClassName": "TaskProgress",
+              "configurationActivity": "TaskProgressWidgetConfigurationActivity",
+              "widgetProviderInfo": {
+                "description": "Task Progress Widget",
+                "updatePeriodMillis": 0,
+                "minWidth": "110dp",
+                "minHeight": "60dp", 
+                "targetCellWidth": "2",
+                "targetCellHeight": "1",
+                "minResizeWidth": "110dp",
+                "minResizeHeight": "60dp", 
+                "maxResizeWidth": "250dp",
+                "maxResizeHeight": "120dp",
+                "resizeMode": "horizontal",
+                "widgetCategory": "home_screen",
+                "widgetFeatures": "reconfigurable"
+              }
             }
           ]
         }

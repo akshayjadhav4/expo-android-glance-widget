@@ -1,3 +1,4 @@
+import { WidgetStorage } from "expo-android-glance-widget";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
@@ -110,6 +111,7 @@ export default function MMKVPage() {
         saveTasks(updatedTasks);
         return updatedTasks;
       });
+      WidgetStorage.updateWidget("TaskProgressReceiver");
     },
     [saveTasks]
   );
