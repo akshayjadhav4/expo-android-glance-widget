@@ -2,6 +2,7 @@
   "expo": {
     "name": "expo-android-glance-widget-example",
     "slug": "expo-android-glance-widget-example",
+    "scheme": "glance-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,30 +29,52 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-     [ "../app.plugin.js",
-      {
-        "widgets": [
-          {
-            "widgetClassName": "Home",
-            "configurationActivity": "HomeWidgetConfigurationActivity",
-            "widgetProviderInfo": {
-              "description": "Home Widget",
-              "updatePeriodMillis": 1000,
-              "minWidth": "100dp",
-              "minHeight": "100dp",
-              "targetCellWidth": "100",
-              "targetCellHeight": "100",
-              "maxResizeWidth": "200dp",
-              "maxResizeHeight": "100dp",
-              "resizeMode": "horizontal",
-              "widgetCategory": "home_screen",
-              "minResizeHeight": "100dp",
-              "minResizeWidth": "200dp",
-              "widgetFeatures": "reconfigurable"
+      [
+        "../app.plugin.js",
+        {
+          "widgets": [
+            {
+              "widgetClassName": "Home",
+              "configurationActivity": "HomeWidgetConfigurationActivity",
+              "widgetProviderInfo": {
+                "description": "Home Widget",
+                "updatePeriodMillis": 1000,
+                "minWidth": "100dp",
+                "minHeight": "100dp",
+                "targetCellWidth": "100",
+                "targetCellHeight": "100",
+                "maxResizeWidth": "200dp",
+                "maxResizeHeight": "100dp",
+                "resizeMode": "horizontal",
+                "widgetCategory": "home_screen",
+                "minResizeHeight": "100dp",
+                "minResizeWidth": "200dp",
+                "widgetFeatures": "reconfigurable"
+              }
+            },
+            {
+              "widgetClassName": "TaskProgress",
+              "configurationActivity": "TaskProgressWidgetConfigurationActivity",
+              "widgetProviderInfo": {
+                "description": "Task Progress Widget",
+                "updatePeriodMillis": 0,
+                "minWidth": "110dp",
+                "minHeight": "60dp", 
+                "targetCellWidth": "2",
+                "targetCellHeight": "1",
+                "minResizeWidth": "110dp",
+                "minResizeHeight": "60dp", 
+                "maxResizeWidth": "250dp",
+                "maxResizeHeight": "120dp",
+                "resizeMode": "horizontal",
+                "widgetCategory": "home_screen",
+                "widgetFeatures": "reconfigurable"
+              }
             }
-          }
-        ]
-      }]
+          ]
+        }
+      ],
+      "expo-router"
     ]
   }
 }

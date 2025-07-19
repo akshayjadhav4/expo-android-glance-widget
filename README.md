@@ -4,7 +4,6 @@
 > 
 > This is highly experimental and not part of any official Expo workflow.
 >
-> ⚠️ **Note:** This library was created for personal use and may not be regularly maintained.
 
 An experimental Expo Config Plugin that enables developers to create and manage Android Glance widgets in their React Native Expo applications. This plugin automates the setup process, generates boilerplate code, and provides a convenient API for widget data management.
 
@@ -85,7 +84,7 @@ widgets/
 ### 3. Run prebuild
 
 ```bash
-npx expo prebuild --platform android
+npx expo prebuild --platform android --clean
 ```
 
 ## What the Plugin Does
